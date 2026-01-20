@@ -54,7 +54,8 @@ class ArbreBinaire():
         """
         if self.abr_droite == None and self.abr_gauche == None:
             return True
-        return False
+        else:
+            return False
 
 #################################################
 ############  Runtime execution  ################
