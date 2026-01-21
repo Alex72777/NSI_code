@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<meta charset="utf-8" />
+	</head>
+	<body>
+		<canvas
+			id="canvas"
+			width="1000"
+			height="500"
+			style="border: 1px solid #000000"
+		>
+		</canvas>
+		<script type="text/javascript">
+			var canvas = document.getElementById("canvas");
+			const ctx = canvas.getContext("2d");
+
+			canvas.width = 1000;
+			canvas.height = 700;
+
+			var fond = new Image();
+			fond.src = "./media/niv_angrybird_bateau.png";
+			fond.onload = () => {
+				ctx.drawImage(fond, 0, 0);
+			};
+
+			class Entity {
+				constructor(width, src, velocity, imgX, imgY) {
+					this.imageX = imgX;
+					this.imageY = imgY;
+					this.width = width;
+					this.height = width;
+					this.lastTimestamp = 0;
+					this.velocityX = velocity;
+					this.velocityY = velocity;
+					this.image = undefined;
+					this.src = src;
+				}
+
+				draw() {
+					if (!this.image) return;
+					ctx.drawImage(
+						this.image,
+						this.imageX,
+						this.imageY,
+						this.width,
+						this.height
+					);
+				}
+
+				update() {
+					if (this.imageX < 0 || this.imageX > canvas.width - this.width)
+						this.velocityX = -this.velocityX;
+					if (this.imageY < 0 || this.imageY > canvas.height - this.height)
+						this.velocityY = -this.velocityY;
+					var now = Date.now();
+					const dt = 0.01;
+					this.imageX += dt * this.velocityX;
+					this.imageY += dt * this.velocityY;
+				}
+			}
+
+			const entities_src = [
+				"./media/tux_prof.png",
+				"./media/tux_noel.png",
+				"./media/tux_hawai.png",
+				"./media/tux_valentin.png",
+				"./media/logo_microsoft.png",
+				"./media/logo_apple.png",
+				"./media/logo_Amazon.png",
+				"./media/logo_GAFA.png",
+				"./media/logo_GAFAM.png",
+				"./media/logo_google.png",
+				"./media/logo_reseaux.png",
+				"./media/tux_chirurgien.png",
+				"./media/tux_cuistot.png",
+				"./media/tux_monsieur.png",
+				"./media/tux_ouvrier.png",
+			];
+
+			let entities = [];
+
+			for (const src of entities_src) {
+				const randX = Math.random() * 500 + 100;
+				const randY = Math.random() * 500 + 100;
+				let velocity = 30;
+				if (Math.random() * 100 <= 50) velocity = -velocity;
+
+				const new_entity = new Entity(100, src, velocity, randX, randY);
+
+				entities.push(new_entity);
+			}
+
+			function animate() {
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				ctx.drawImage(fond, 0, 0);
+
+				entities.forEach((e) => {
+					e.draw();
+					e.update();
+				});
+
+				requestAnimationFrame(animate);
+			}
+
+			entities.forEach(e => {
+				const image = new Image();
+				image.onload = () => {
+					e.image = image;
+					animate();
+				};
+				image.src = e.src;
+			});
+		</script>
+	</body>
+</html>

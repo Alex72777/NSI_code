@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" /> 
+        <link rel="stylesheet" href="./CSS/style.css" />
+        <!--<script src="affichage_CAN.js"> </script> -->
+        <title>Angry Tux - NSI </title>
+    </head>
+<body>
+	<header>
+		<p style="text-align: center;">	Simulation de lancer de Tux contre les mechants GAFAM </p>
+		</br>
+		<p>par M Germant professeur SNT/NSI ( Lycée St Léon 91) et ses eleves de Spe NSI
+	</header>
+
+	<p>
+	<!--zone de parametrage des valeurs-->
+		<fieldset id="interface" >
+		<legend><b>Angry Tux - Développement d'une IHM simple</b></legend> 
+		<form method="GET" action="affichage" id="info"  > 
+				<table border="1px solid black" height='100%' width='85%' >
+					<!-- descriptif -->
+					<tr>
+						<td align=center height='100%' width='100%'> Zone de jeux 				</td>
+						<td align=center> Paramétrage du tir Tux 				</td>
+					</tr> 
+					<tr > <!-- partie simu et parametre Puissance et angle de vol -->
+						<td align=center height='100%' width='100%'>
+							<canvas  id="zone_dessin"  style="border:1px solid #222222;" onclick=pointage(x,y,liste)> </canvas>
+						</td>
+						<td>
+							<input type="button"  value="-°" onclick=dessiner()>
+							<input type="button"  value="+vit" onclick=dessiner()>
+							</br>
+							<input type="button"  value="-vit" onclick=dessiner()>
+							<input type="button"  value="+°" onclick=dessiner()>
+							<br>
+							<input type="button"  value="ok" onclick=dessiner() align=center>
+						</td>
+					</tr>
+				</table>
+			<input type="button"  value="valider" onclick=dessiner()>	
+		<!--<input type="submit"  name="submit" value="ok"/> <br/>-->
+		</form>
+		</fieldset>
+
+
+	<!--zone de d'affichage des fonds et des bases des cochons-->
+	<script>
+		const ctx = document.getElementById('zone_dessin').getContext('2d');
+		const img = new Image();
+		img.src="./media/tux_hawai.png";
+		img.onload = function() { ctx.drawImage(img, 0, 0); }
+		
+		const ctx1 = document.getElementById('zone_dessin').getContext('2d');
+		const img1 = new Image();
+		img1.src="./media/tux_noel.png";
+		img1.onload = function() { ctx1.drawImage(img, 500, 0); }
+		
+		
+		/*var ctx = document.getElementById('zone_dessin').getContext('2d');
+		var img = new Image();
+		img.onload = function() { ctx.drawImage(img, 0, 0); }
+		img.src="./media/fond.png";
+		img.usemap="carte";
+
+		
+		
+		
+		/*var marge=10
+		var larg=document.getElementById("dessin").height;
+		var lon=document.getElementById("dessin").width;
+		var compteur=0
+		var c = document.getElementById("dessin");
+
+		var ctx = c.getContext("2d");
+		//console.log(lon);
+		//console.log(larg);
+		function fond()
+			{
+				//console.log("recuperation image");
+				//image}*/
+				
+		//drag and drop automatique W3S
+		function allowDrop(ev) {
+			ev.preventDefault();
+		}
+
+		function drag(ev) {
+			
+			ev.dataTransfer.setData("text", ev.target.id);
+		}
+
+		function drop(ev) {
+			ev.preventDefault();
+			const data = ev.dataTransfer.getData("text");
+			const clone = document.getElementById(data).cloneNode(true);
+			clone.id = "clone";
+			ev.target.appendChild(document.getElementById(clone));
+		}
+
+	function trajectoire(Vint,angle,t) {
+		const h = 0;
+		const g = 9.81;
+		const x = Math.cos(angle)*Vint*t;
+		const y = -1/2*g*(t*t)*+Math.sin(angle)*Vint*t+h;
+		//h=0 pour Angry Tux
+		
+		return [x,y]
+	}
+
+	console.log(trajectoire(30,10,3))
+	</script>
+
+
+	<footer>
+		Application libre de droit sous la licence GNU GPL3 par M Germant
+	</footer>
+
+</body>
+</html>
