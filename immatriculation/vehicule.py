@@ -35,6 +35,7 @@ class Vehicule():
   }
 
   def __init__(self, type: str) -> None:
+      self.solde = randint(50, 100)
     if type in self.type_vehicules:
       self.type = type
     else:

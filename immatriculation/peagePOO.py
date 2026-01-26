@@ -1,5 +1,5 @@
 from vehicule import Vehicule
-from random import choice
+from random import choice, randint
 
 class Peage():
   """
@@ -7,6 +7,7 @@ class Peage():
   """
   def __init__(self) -> None:
     self.file_attente: list[Vehicule] = []
+    self.prix = randint(10, 30)
 
   def enfiler(self, obj: object) -> None:
     """
