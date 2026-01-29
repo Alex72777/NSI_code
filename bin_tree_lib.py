@@ -1,9 +1,16 @@
-from binarytree import Node
+from binarytree import Node, build
 
 root = Node("racine")
 root.left = Node("sag", Node("ssag"), Node("ssad"))
 root.right = Node("sad")
 print(root)
+
+l = [1,
+     2, 3,
+     None, 5, 3, None]
+
+a = build(l)
+print(a)
 
 def infixe(arbre: Node) -> list:
     if arbre == None:
