@@ -71,60 +71,60 @@ Coder la class file avec :
 @dataclass
 class Pile:
     liste: list = field(default_factory=lambda: [])
-    
+
     def empiler(self, element: object) -> list:
         self.liste.append(element)
         return self.liste
-    
+
     def depiler(self) -> object:
         if not self.est_vide():
             return None
         element = self.liste.pop()
         return element
-    
+
     def est_vide(self) -> bool:
         return True if self.liste else False
-    
+
     def inserer(self, element: object, index: int):
         self.liste = self.liste[:index] + [element] + self.liste[index:]
 
 @dataclass
 class File:
     liste: list = field(default_factory=lambda: [])
-    
+
     def enfiler(self, element: object) -> list:
         self.liste.append(element)
         return self.liste
-    
+
     def defiler(self) -> object:
         if not self.est_vide():
             return None
         element = self.liste.pop(0)
         return element
-    
+
     def est_vide(self) -> bool:
         return True if self.liste else False
-    
+
     def inserer(self, element: object, index: int):
         self.liste = self.liste[:index] + [element] + self.liste[index:]
 
 def _auto_solving():
 	L1 = list(range(1, 9))
-	
+
 	pile = Pile(L1)
 	pile_tampon = Pile()
 	file = File()
-	
+
 	while file.liste != L1:
 		if pile.liste and pile_tampon.liste and file.liste:
-			if file.liste[-1] - 1 == pile_tampon[0]:
+			if file.liste[-1] - 1 == pile_tampon.liste[0]:
 				element = pile.depiler()
 				file.enfiler(element)
 			else:
 				element = pile.depiler()
 				pile_tampon.empiler(element)
 		elif pile_tampon.liste and file.liste:
-			if file.liste[-1] - 1 != pile_tampon[0]:
+			if file.liste[-1] - 1 != pile_tampon.liste[0]:
 				pass
 
 def _manual_solving():
@@ -141,7 +141,7 @@ def _manual_solving():
 		action = input("(1) Empiler (2) Dépiler")
 		if action.isdigit(): action = int(action)
 		else: action = 0
-		
+
 		if action == 1 and not pile.est_vide():
 			element = pile.depiler()
 			pile_tampon.empiler(element)

@@ -2,19 +2,19 @@
 Séparer une pile de nombre entiers en deux piles de nombres pairs et impairs
 """
 
-from exo_5p104 import Stack
+from piles import Stack
 
 def sort(pile: Stack):
 	odd_stack = Stack()
 	even_stack = Stack()
-	
+
 	while not pile.is_empty():
 		value = pile.pop()
 		if value % 2:
 			odd_stack.push(value)
 		else:
 			even_stack.push(value)
-	
+
 	return odd_stack, even_stack
 
 if __name__ == "__main__":

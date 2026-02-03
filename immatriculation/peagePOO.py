@@ -9,7 +9,7 @@ class Peage():
     self.file_attente: list[Vehicule] = []
     self.prix = randint(10, 30)
 
-  def enfiler(self, obj: object) -> None:
+  def enfiler(self, obj: Vehicule) -> None:
     """
     Ajoute un véhicule (object) à la file.
     """

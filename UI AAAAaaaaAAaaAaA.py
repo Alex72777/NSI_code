@@ -1,4 +1,4 @@
-from tkinter import *
+from tkinter import Canvas, Button, Tk
 from random import randint
 
 app = Tk()
@@ -54,4 +54,3 @@ canva.create_arc(140, 1, 15, 15)
 canva.grid(row=1, column = 6)
 
 app.mainloop()
-

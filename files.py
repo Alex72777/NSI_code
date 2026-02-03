@@ -1,4 +1,4 @@
-from exo_5p104 import Stack
+from piles import Stack
 """
 Inverser les éléments d'une pile
 Exercice 6 p 104
