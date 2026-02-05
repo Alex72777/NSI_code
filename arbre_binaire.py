@@ -56,18 +56,18 @@ class ArbreBinaire():
             return self.abr_gauche
         return None
 
-    def valeur_sous_arbre(self, s_abr: str) -> list[float | None]:
+    def valeur_sous_arbre(self, s_abr: str) -> float | None:
         """
         valeur_sous_arbre(s_abr: "G" | "D") -> float | None : renvoie la valeur du sous arbre gauche ou droite
         """
 
         if self.est_feuille():
-            return [None]
+            return None
 
         if s_abr.lower() == "d" and self.abr_droit:
-            return [self.abr_droit.racine]
+            return self.abr_droit.racine
         elif s_abr.lower() == "g" and self.abr_gauche:
-            return [self.abr_gauche.racine]
+            return self.abr_gauche.racine
         else:
             raise ValueError("Type d'abre invalide: '{}'. Expected: 'G' | 'D'".format(s_abr))
 
@@ -75,14 +75,36 @@ class ArbreBinaire():
         """
         est_feuille() -> bool : renvoie True si aucun sous arbre sinon False
         """
-        if self.abr_droit == None and self.abr_gauche == None:
+        if self.abr_droit is None and self.abr_gauche is None:
             return True
         else:
             return False
 
-    def ajouter_feuille(self, val: float) -> None:
-        attente = [self.racine]
-
+    def ajouter_feuille(self, new_abr: "ArbreBinaire") -> None:
+        abr = self
+        val = new_abr.racine
+        while abr:
+            abr_gauche = abr.abr_gauche
+            abr_droit = abr.abr_droit
+            if abr_droit and val > abr.valeur_sous_arbre('d'):
+                abr = abr.abr_droit
+            elif abr_droit is None and abr_gauche and val > abr.valeur_sous_arbre('g'):
+                abr.creer_fils('d', new_abr)
+                print("d")
+                abr = None
+            elif abr_gauche is None and abr_droit and val < abr.valeur_sous_arbre('d'):
+                abr.creer_fils('g', new_abr)
+                print("g")
+                abr = None
+            elif abr_gauche is None and abr_droit is None:
+                abr.creer_fils('g', new_abr)
+                abr = None
+            else:
+                abr = abr.abr_gauche
+    
+    def _tri_fusion(self) -> list[float]:
+        pass
+    
     def _prefixe(self, arbre: "ArbreBinaire") -> list:
         if abr == None:
             return []
@@ -93,13 +115,13 @@ class ArbreBinaire():
         if abr == None:
             return []
         else:
-            return arbre.valeur_sous_arbre('g') + [self.racine] + arbre.valeur_sous_arbre('d')
+            return arbre.sous_arbre('g') + [self.racine] + arbre.sous_arbre('d')
 
     def _post_fixe(self, arbre: "ArbreBinaire") -> list:
         if abr == None:
             return []
         else:
-            return arbre.valeur_sous_arbre('g') + arbre.valeur_sous_arbre('d') + [self.racine]
+            return arbre.sous_arbre('g') + arbre.sous_arbre('d') + [self.racine]
     
     @property
     def repr_call(self) -> Callable:
@@ -122,10 +144,10 @@ class ArbreBinaire():
 ############  Runtime execution  ################
 #################################################
 
-abr = ArbreBinaire(racine=12)
-sag = ArbreBinaire(racine=5)
-sad = ArbreBinaire(racine=1)
-ssad = ArbreBinaire(racine=2)
+abr = ArbreBinaire(racine=8)
+sag = ArbreBinaire(racine=3)
+sad = ArbreBinaire(racine=13)
+ssad = ArbreBinaire(racine=14)
 sad.creer_fils("d", ssad)
 abr.creer_fils("G", sag)
 abr.creer_fils("d", sad)
@@ -133,4 +155,10 @@ abr.creer_fils("d", sad)
 print(f"Parcours: {abr.parcours}")
 print(f"Est feuille: {abr.est_feuille()}")
 print(f"Valeur racine: {abr.a_valeur()}")
+print(abr)
+
+abr.ajouter_feuille(ArbreBinaire(racine=1))
+abr.ajouter_feuille(ArbreBinaire(racine=6))
+abr.ajouter_feuille(ArbreBinaire(racine=4))
+abr.ajouter_feuille(ArbreBinaire(racine=10))
 print(abr)
