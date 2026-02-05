@@ -1,3 +1,5 @@
+from typing import Literal, Callable
+
 class ArbreBinaire():
     """
     Représentation sous forme de classe d'un arbre binaire.
@@ -13,25 +15,31 @@ class ArbreBinaire():
     """
     def __init__(self,
                  racine: float,
+                 methode_representation: Literal['prefixe', 'infixe', 'postfixe'] = 'prefixe',
                  abr_gauche: "ArbreBinaire | None" = None,
                  abr_droit: "ArbreBinaire | None" = None) -> None:
         self.racine = racine
         self.abr_gauche = abr_gauche
-        self.abr_droite = abr_droit
+        self.abr_droit = abr_droit
+        self.parcours = methode_representation
+        self._repr_call = self._prefixe
+        
+        if methode_representation == 'infixe':
+            self.repr_call = self._infixe
+        elif methode_representation == 'postfixe':
+            self.repr_call = self._post_fixe
 
     def creer_fils(self, s_abr: str, val: "ArbreBinaire") -> None:
         """
         creer_fils(s_abr: "G" | "D") -> None : Définie un sous abre
         """
 
-        if val is None:
-            print("Empty tree")
-            return
-
         if s_abr.lower() == "d":
             self.abr_droit = val
+            val.repr_call = self.repr_call
         elif s_abr.lower() == "g":
             self.abr_gauche = val
+            val.repr_call = self.repr_call
         else:
             raise ValueError("Type d'abre invalide: '{}'. Expected: 'G' | 'D'".format(s_abr))
 
@@ -42,13 +50,11 @@ class ArbreBinaire():
         return self.racine
 
     def sous_arbre(self, s_abr: str) -> "ArbreBinaire | None":
-        if self.est_feuille():
-            return None
-
         if s_abr.lower() == "d":
             return self.abr_droit
         elif s_abr.lower() == "g":
             return self.abr_gauche
+        return None
 
     def valeur_sous_arbre(self, s_abr: str) -> list[float | None]:
         """
@@ -69,7 +75,7 @@ class ArbreBinaire():
         """
         est_feuille() -> bool : renvoie True si aucun sous arbre sinon False
         """
-        if self.abr_droite == None and self.abr_gauche == None:
+        if self.abr_droit == None and self.abr_gauche == None:
             return True
         else:
             return False
@@ -94,9 +100,22 @@ class ArbreBinaire():
             return []
         else:
             return arbre.valeur_sous_arbre('g') + arbre.valeur_sous_arbre('d') + [self.racine]
-
+    
+    @property
+    def repr_call(self) -> Callable:
+        return self._repr_call
+    
+    @repr_call.setter
+    def repr_call(self, val: Literal['prefixe', 'infixe', 'postfixe']) -> None:
+        self._repr_call = self._prefixe
+        self.parcours = val
+        if val == 'infixe':
+            self._repr_call = self._infixe
+        elif val == 'postfixe':
+            self._repr_call = self._post_fixe
+        
     def __repr__(self) -> str:
-        return str(self._prefixe(self))
+        return str(self.repr_call(self))
         # return f"[{self.racine}, {self.sous_arbre('g')}, {self.sous_arbre('d')}]"
 
 #################################################
@@ -111,6 +130,7 @@ sad.creer_fils("d", ssad)
 abr.creer_fils("G", sag)
 abr.creer_fils("d", sad)
 
+print(f"Parcours: {abr.parcours}")
 print(f"Est feuille: {abr.est_feuille()}")
 print(f"Valeur racine: {abr.a_valeur()}")
 print(abr)
