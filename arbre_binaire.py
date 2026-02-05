@@ -69,7 +69,7 @@ class ArbreBinaire():
         elif s_abr.lower() == "g" and self.abr_gauche:
             return self.abr_gauche.racine
         else:
-            raise ValueError("Type d'abre invalide: '{}'. Expected: 'G' | 'D'".format(s_abr))
+            raise ValueError("Type d'abre invalide: '{}'. Attendu: 'G' | 'D'".format(s_abr))
 
     def est_feuille(self) -> bool:
         """
@@ -84,26 +84,26 @@ class ArbreBinaire():
         abr = self
         val = new_abr.racine
         while abr:
+            print(val, abr.racine)
             abr_gauche = abr.abr_gauche
             abr_droit = abr.abr_droit
-            if abr_droit and val > abr.valeur_sous_arbre('d'):
+            if abr_droit and val >= abr.racine:
+                print("will look right")
                 abr = abr.abr_droit
-            elif abr_droit is None and abr_gauche and val > abr.valeur_sous_arbre('g'):
+            elif abr_droit is None and val >= abr.racine:
+                print("went right")
                 abr.creer_fils('d', new_abr)
-                print("d")
                 abr = None
-            elif abr_gauche is None and abr_droit and val < abr.valeur_sous_arbre('d'):
-                abr.creer_fils('g', new_abr)
-                print("g")
-                abr = None
-            elif abr_gauche is None and abr_droit is None:
+            elif abr_gauche is None and val < abr.racine:
+                print("went left")
                 abr.creer_fils('g', new_abr)
                 abr = None
             else:
+                print("will look left")
                 abr = abr.abr_gauche
     
     def _tri_fusion(self) -> list[float]:
-        pass
+        return []
     
     def _prefixe(self, arbre: "ArbreBinaire") -> list:
         if abr == None:
@@ -161,4 +161,5 @@ abr.ajouter_feuille(ArbreBinaire(racine=1))
 abr.ajouter_feuille(ArbreBinaire(racine=6))
 abr.ajouter_feuille(ArbreBinaire(racine=4))
 abr.ajouter_feuille(ArbreBinaire(racine=10))
+abr.ajouter_feuille(ArbreBinaire(racine=11))
 print(abr)
