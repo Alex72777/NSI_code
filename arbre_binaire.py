@@ -25,9 +25,9 @@ class ArbreBinaire():
         self._repr_call = self._prefixe
         
         if methode_representation == 'infixe':
-            self.repr_call = self._infixe
+            self._repr_call = self._infixe
         elif methode_representation == 'postfixe':
-            self.repr_call = self._post_fixe
+            self._repr_call = self._post_fixe
 
     def creer_fils(self, s_abr: str, val: "ArbreBinaire") -> None:
         """
@@ -106,22 +106,22 @@ class ArbreBinaire():
         return []
     
     def _prefixe(self, arbre: "ArbreBinaire") -> list:
-        if abr == None:
+        if arbre == None:
             return []
         else:
             return [self.racine] + [arbre.sous_arbre('g')] + [arbre.sous_arbre('d')]
 
     def _infixe(self, arbre: "ArbreBinaire") -> list:
-        if abr == None:
+        if arbre == None:
             return []
         else:
-            return arbre.sous_arbre('g') + [self.racine] + arbre.sous_arbre('d')
+            return [arbre.sous_arbre('g')] + [self.racine] +[ arbre.sous_arbre('d')]
 
     def _post_fixe(self, arbre: "ArbreBinaire") -> list:
-        if abr == None:
+        if arbre == None:
             return []
         else:
-            return arbre.sous_arbre('g') + arbre.sous_arbre('d') + [self.racine]
+            return [arbre.sous_arbre('g')] + [arbre.sous_arbre('d')] + [self.racine]
     
     @property
     def repr_call(self) -> Callable:
@@ -144,22 +144,40 @@ class ArbreBinaire():
 ############  Runtime execution  ################
 #################################################
 
-abr = ArbreBinaire(racine=8)
-sag = ArbreBinaire(racine=3)
-sad = ArbreBinaire(racine=13)
-ssad = ArbreBinaire(racine=14)
-sad.creer_fils("d", ssad)
-abr.creer_fils("G", sag)
-abr.creer_fils("d", sad)
+def test1() -> None:
+    abr = ArbreBinaire(racine=8, methode_representation='prefixe')
+    sag = ArbreBinaire(racine=3)
+    sad = ArbreBinaire(racine=13)
+    ssad = ArbreBinaire(racine=14)
+    sad.creer_fils("d", ssad)
+    abr.creer_fils("G", sag)
+    abr.creer_fils("d", sad)
 
-print(f"Parcours: {abr.parcours}")
-print(f"Est feuille: {abr.est_feuille()}")
-print(f"Valeur racine: {abr.a_valeur()}")
-print(abr)
+    print(f"Parcours: {abr.parcours}")
+    print(f"Est feuille: {abr.est_feuille()}")
+    print(f"Valeur racine: {abr.a_valeur()}")
+    print(abr)
+    
+    abr.ajouter_feuille(ArbreBinaire(racine=1))
+    abr.ajouter_feuille(ArbreBinaire(racine=6))
+    abr.ajouter_feuille(ArbreBinaire(racine=4))
+    abr.ajouter_feuille(ArbreBinaire(racine=10))
+    abr.ajouter_feuille(ArbreBinaire(racine=11))
+    print(abr)
 
-abr.ajouter_feuille(ArbreBinaire(racine=1))
-abr.ajouter_feuille(ArbreBinaire(racine=6))
-abr.ajouter_feuille(ArbreBinaire(racine=4))
-abr.ajouter_feuille(ArbreBinaire(racine=10))
-abr.ajouter_feuille(ArbreBinaire(racine=11))
-print(abr)
+def test2() -> None:
+    abr = ArbreBinaire(racine=10)
+    abr.ajouter_feuille(ArbreBinaire(racine=1))
+    abr.ajouter_feuille(ArbreBinaire(racine=6))
+    abr.ajouter_feuille(ArbreBinaire(racine=4))
+    abr.ajouter_feuille(ArbreBinaire(racine=13))
+    abr.ajouter_feuille(ArbreBinaire(racine=11))
+    
+    # [10, [1, ., [6, [4, ., .], .]], [13, [11, ., .], .]]
+    print(abr)
+    
+def main() -> None:
+    test2()
+    
+if __name__ == "__main__":
+    main()
