@@ -1,12 +1,12 @@
 
-def cesar(cle: int, contenu: str) -> str:
+def cesar(cle: int, contenu: str, min_ord: int = 32, max_ord: int = 1114111) -> str:
     message = ""
     for char in contenu:
         index = ord(char) + cle
-#         if index > 90:
-#             index -= 26
-#         elif index < 65:
-#             index += 26
+        if index > max_ord:
+            index -= 26
+        elif index < min_ord:
+            index += 26
         
         message += chr(index)
     return message
@@ -34,9 +34,46 @@ def lire_et_decrypter() -> None:
             print(cesar(-3, line))
         file.close()
 
+def brute_force(msg: str) -> None:
+    min_ord = 97
+    max_ord = 122
+    
+    for i in range(min_ord + 1, max_ord + 1):
+        attempt = cesar(i - min_ord, msg)
+        print("Décalage %2d: %s" % (i - min_ord, attempt))
+    
+
+def analyse_frequentielle(msg: str) -> None:
+    frequency = {}
+    for i in range(97, 123):
+        frequency[chr(i)] = 0
+    
+    for char in msg:
+        frequency[char] = msg.count(char)
+    print(frequency)
+    print(sum(frequency.values()))
+
+def vigenere(cle: str, msg: str, negate: bool = False) -> str:
+    min_ord = 97
+    
+    crypte = ""
+    for i in range(len(msg)):
+        decalage = ord(cle[i % len(cle)]) - min_ord + 1
+        if negate:
+            decalage *= -1
+        # print(decalage)
+        crypte += chr(ord(msg[i]) + decalage)
+    #print(crypte)
+    return crypte
+
 def main() -> None:
     # crypter()
-    lire_et_decrypter()
+    #lire_et_decrypter()
+    brute_force("erqmrxu")
+    #analyse_frequentielle(open("loremipsum.txt", "r", encoding="utf-8").read())*
+    crypte = vigenere("clef", "bienvenue")
+    print(crypte)
+    print(vigenere("clef", crypte, True))
 
 if __name__ == "__main__":
     main()
