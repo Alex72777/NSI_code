@@ -69,11 +69,11 @@ def vigenere(cle: str, msg: str, negate: bool = False) -> str:
 def main() -> None:
     # crypter()
     #lire_et_decrypter()
-    brute_force("erqmrxu")
+    #brute_force("erqmrxu")
     #analyse_frequentielle(open("loremipsum.txt", "r", encoding="utf-8").read())*
-    crypte = vigenere("clef", "bienvenue")
-    print(crypte)
-    print(vigenere("clef", crypte, True))
+    #crypte = vigenere("clef", "bienvenue")
+    #print(crypte)
+    print(vigenere("clef", "21w285mz21mpur5mnzvm78mr6m75r6m6az3nmwnvzrmyr6myn6nt1r6mr7mwrmqr7r67rmyr6mr7n76m81v6mqnzr5v48rm1vxmv65nrymn16m81mp5a3726a67rzrmn6az75v48rm28mp5a3726a67rzrmnmpyr6m38oyv48r6myr6mpyr6mr v67r17m3n5m3nv5rmyrm7r5zrmqrmovpyr6mr67mtr1r5nyrzr17mrz3y2arm81rmpyrm38oyv48rm3285mpuvss5rzr17m81rmpyrm6rp5r7rm35v9rm3285mqrpuvss5rzr17", True))
 
 if __name__ == "__main__":
     main()
