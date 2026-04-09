@@ -1,38 +1,46 @@
 
 
-""" def rechBoyerMoore(expr: str, seq: str) -> int | None:
+def rechBoyerMoore(expr: str, seq: str) -> int | None:
     pas = len(seq)
     cursor = pas - 1
     index = None
     done = False
     count =  0
     
+    dico_keys = {}
+    for i in range(len(seq)):
+        dico_keys[seq[i]] = len(seq) - i - 1
+    
     while cursor < len(expr) - 1 and done == False:
-        print(cursor, len(expr))
         char = expr[cursor]
-        print(expr[:cursor] + f">{expr[cursor]}<" + expr[cursor + 1:])
+        #print(expr[:cursor] + f">{expr[cursor]}<" + expr[cursor + 1:])
         if char in seq:
-            print(f"Caractere '{char}' trouvé dans la séquence, décalage des caractères pour voir si match.")
+            #print(f"Caractere '{char}' trouvé dans la séquence, décalage des caractères pour voir si match.")
             for i in range(pas):
-                print(f"{count}: {expr[cursor - i: cursor + i]}, {i}")
-                if expr[cursor - i: cursor + i] == seq:
+                #print(f"{count}: {expr[cursor - i: cursor + i]}, {i}")
+                #print(count)
+                for cle in dico_keys.keys():
+                    if expr[cursor + dico_keys[cle]: cursor + pas] == seq:
+                        return cursor + dico_keys[cle]
+                """if expr[cursor - ] == seq:
                     done = True
                     index = cursor - i - 1
                     print("found")
-        
+                """
         cursor = min(cursor + pas, len(expr) - 1)
         count += 1
     
     return index
 
 def main() -> None:
-    expr = "les saucisses sont cuites."
-    seq = "saucisses"
+    #expr = "Bonjour bienvenue a toi dans le monde numérique de la NSI, sache que tu viens de passer du côté codé de la force. Le pouvoir tu maîtrises si bien écouté tu as, seul le pouvoir du Sudo peut te libérer de tes chaines."
+    expr = open("log_serveur.txt", "r").read()
+    seq = "a"
     index = rechBoyerMoore(expr, seq)
     if index != None:
         print("Séquence trouvée à l'index:", index)
-        print(expr[:index] + f">{seq}<" + expr[index + len(seq):]) """
-
+        print(expr[index-100:index] + f">{seq}<" + expr[index + len(seq): index + 100])
+"""
 def badCharHeuristic(string, size):
     '''
     The preprocessing function for
@@ -99,10 +107,7 @@ def search(txt, pat):
 
 
 # Driver program to test above function
-def main():
-    expr = "les saucisses sont cuites."
-    seq = "cuites"
-    search(expr, seq)
-    
+"""
+
 if __name__ == "__main__":
     main()
