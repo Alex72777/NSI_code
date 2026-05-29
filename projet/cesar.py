@@ -1,7 +1,7 @@
 
 def cesar(cle: int, contenu: str, alpha: str) -> str:
     message = ""
-    for char in message:
+    for char in contenu:
         index = (alpha.index(char) + cle ) % len(alpha)
         message += alpha[index]
     return message
@@ -31,7 +31,7 @@ def lire_et_decrypter() -> None:
 
 def brute_force(msg: str, alpha: str) -> None:
     for i in range(1, len(alpha) + 1):
-        attempt = cesar(i, msg, alpha)
+        attempt = cesar(-i, msg, alpha)
         print("Décalage %2d: %s" % (i, attempt))
     
 
@@ -60,7 +60,7 @@ def vigenere(cle: str, msg: str, negate: bool = False) -> str:
 def main() -> None:
     # crypter()
     #lire_et_decrypter()
-    brute_force("erqmrxu")
+    #brute_force("erqmrxu")
     #analyse_frequentielle(open("loremipsum.txt", "r", encoding="utf-8").read())*
     crypte = vigenere("clef", "bienvenue")
     print(crypte)

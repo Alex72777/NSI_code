@@ -13,11 +13,11 @@ def rechBoyerMoore(expr: str, seq: str) -> int | None:
     
     while cursor < len(expr) - 1 and done == False:
         char = expr[cursor]
-        #print(expr[:cursor] + f">{expr[cursor]}<" + expr[cursor + 1:])
+        print(expr[:cursor] + f">{expr[cursor]}<" + expr[cursor + 1:])
         if char in seq:
-            #print(f"Caractere '{char}' trouvé dans la séquence, décalage des caractères pour voir si match.")
+            print(f"Caractere '{char}' trouvé dans la séquence, décalage des caractères pour voir si match.")
             for i in range(pas):
-                #print(f"{count}: {expr[cursor - i: cursor + i]}, {i}")
+                print(f"{count}: {expr[cursor - i: cursor + i]}, {i}")
                 #print(count)
                 for cle in dico_keys.keys():
                     if expr[cursor + dico_keys[cle]: cursor + pas] == seq:

@@ -40,7 +40,7 @@ class Peage():
   def __repr__(self) -> str:
     return "\n".join([f"{i + 1}: {self.file_attente[i]}" for i in range(self.longueur)])
 
-peage = Peage()
+""" peage = Peage()
 [peage.enfiler(Vehicule(choice(list(Vehicule.type_vehicules.keys())))) for i in range(10)]
 [peage.defiler() for i in range(3)]
 
@@ -49,4 +49,4 @@ print(peage)
 peage.vider()
 
 print(peage)
-print("File d'attente vide:", peage.est_vide)
+print("File d'attente vide:", peage.est_vide) """
