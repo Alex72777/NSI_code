@@ -4,24 +4,22 @@ def rechBoyerMoore(expr: str, seq: str) -> int | None:
     pas = len(seq)
     cursor = pas - 1
     index = None
-    done = False
     count =  0
     
-    dico_keys = {}
+    """"dico_keys = {}
     for i in range(len(seq)):
-        dico_keys[seq[i]] = len(seq) - i - 1
+        dico_keys[seq[i]] = len(seq) - i - 1"""
     
-    while cursor < len(expr) - 1 and done == False:
+    while cursor < len(expr):
         char = expr[cursor]
         #print(expr[:cursor] + f">{expr[cursor]}<" + expr[cursor + 1:])
         if char in seq:
             #print(f"Caractere '{char}' trouvé dans la séquence, décalage des caractères pour voir si match.")
-            for i in range(pas):
+            for i in range(pas, -1, -1):
                 #print(f"{count}: {expr[cursor - i: cursor + i]}, {i}")
                 #print(count)
-                for cle in dico_keys.keys():
-                    if expr[cursor + dico_keys[cle]: cursor + pas] == seq:
-                        return cursor + dico_keys[cle]
+                if expr[cursor-(pas-cursor):cursor+cursor] == seq:
+                    index = cursor
                 """if expr[cursor - ] == seq:
                     done = True
                     index = cursor - i - 1
@@ -35,7 +33,7 @@ def rechBoyerMoore(expr: str, seq: str) -> int | None:
 def main() -> None:
     #expr = "Bonjour bienvenue a toi dans le monde numérique de la NSI, sache que tu viens de passer du côté codé de la force. Le pouvoir tu maîtrises si bien écouté tu as, seul le pouvoir du Sudo peut te libérer de tes chaines."
     expr = open("log_serveur.txt", "r").read()
-    seq = "a"
+    seq = "Parents"
     index = rechBoyerMoore(expr, seq)
     if index != None:
         print("Séquence trouvée à l'index:", index)
